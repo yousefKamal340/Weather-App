@@ -59,12 +59,14 @@ app.get('/ViewHistory', async (req, res) => {
     }
 });
 
-app.delete('/DeleteRecord', async (req, res, next) => {
+app.post('/DeleteRecord', async (req, res, next) => {
     try {
-      const result = await Weathers.findOneAndDelete({ City: req.body.city }, { new: true });
+      console.log(req.body);
+      await Weathers.findOneAndDelete({ City: req.body.result.City }, { new: true });
       res.send("Sucess");
     }
     catch (err) {
+        console.log(err);
         res.send("Failure");
     }
   })

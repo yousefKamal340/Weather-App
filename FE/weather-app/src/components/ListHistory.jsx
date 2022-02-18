@@ -13,6 +13,13 @@ class ListHistory extends React.Component {
         });
     }
 
+    delete = async (result) => {
+        console.log(result);
+        await axios.post('http://localhost:8000/DeleteRecord', { result }).then(res => {
+            alert("ReLoad the List to See the Update");
+        });
+    }
+
     render() {
         return (
             <div className="container my-5">
@@ -21,7 +28,8 @@ class ListHistory extends React.Component {
                     View Search History
                 </button>
                 <h1>
-                    {this.state.listResult.map(result => <div>{result.City}</div>)}
+                    {this.state.listResult.map(result => <div><button
+                    onClick={() => this.delete(result)}>Delete</button>{result.City}</div>)}
                 </h1>
             </div>
         )
