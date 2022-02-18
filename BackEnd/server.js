@@ -35,10 +35,11 @@ app.get('/', function (req, res) {
 app.use('/weather', WeatherController);
 
 app.post('/WeatherDetails', function (req, res) {
-    axios.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${req.body.city}`)
+    axios.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${req.body.searchInputValue}`)
         .then(response => {
+            console.log(req.body.searchInputValue);
             const apiResponse = response.data;
-            Weathers.create({ City: req.body.city, Temperature: apiResponse.current.temperature }, function (err, small) {
+            Weathers.create({ City: req.body.searchInputValue, Temperature: apiResponse.current.temperature }, function (err, small) {
                 if (err) res.send(err);
                 else console.log("Success");
             });
