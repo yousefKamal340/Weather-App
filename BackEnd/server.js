@@ -38,11 +38,35 @@ app.post('/WeatherDetails', function (req, res) {
     axios.get(`http://api.weatherstack.com/current?access_key=${apiKey}&query=${req.body.city}`)
         .then(response => {
             const apiResponse = response.data;
+            Weathers.create({ City: req.body.city, Temperature: apiResponse.current.temperature }, function (err, small) {
+                if (err) res.send(err);
+                else console.log("Success");
+            });
             res.send(`Current temperature in ${apiResponse.location.name} is ${apiResponse.current.temperature}℃`);
         }).catch(error => {
             res.send(error);
         });
 });
+
+app.get('/ViewHistory', async (req, res) => {
+    const weathers = await Weathers.find({})
+    try{
+      res.send(weathers);
+    }
+    catch(err){
+      res.send(err);
+    }
+});
+
+app.delete('/DeleteRecord', async (req, res, next) => {
+    try {
+      const result = await Weathers.findOneAndDelete({ City: req.body.city }, { new: true });
+      res.send("Sucess");
+    }
+    catch (err) {
+        res.send("Failure");
+    }
+  })
 
 app.listen(port, () => {
     console.log(`Listening to requests on http://localhost:${port}`);
