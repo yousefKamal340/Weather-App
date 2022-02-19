@@ -3,9 +3,10 @@ import axios from 'axios';
 import '../Style.css'
 import CitySearch from './CitySearch';
 import ListHistory from './ListHistory';
+import AuthNav from './auth-nav';
 
 class App extends React.Component{
-
+ 
     state = {weatherResult: null}
 
     onSearchSubmit = async (searchInputValue) => {
@@ -18,6 +19,7 @@ class App extends React.Component{
     render() {
         return(
             <div className="container my-5">
+                <AuthNav />
                 <h1 className="text-center title">Weather App</h1>
                  <CitySearch onSearchSubmit = {this.onSearchSubmit} />
                  <h1>
